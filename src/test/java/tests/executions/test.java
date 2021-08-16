@@ -4,14 +4,19 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Reporter;
 
+import java.util.Set;
+
 public class test {
 
     public static void main(String[] args) throws InterruptedException {
+        //create capabilities object
         DesiredCapabilities caps = new DesiredCapabilities();
+        //set capabilities
         caps.setCapability("platformName","Android");
         caps.setCapability("platformVersion","9");
         caps.setCapability("deviceName","ASUS_X00TD");
@@ -21,7 +26,10 @@ public class test {
         caps.setCapability("appPackage","com.experitest.ExperiBank");
         caps.setCapability("appActivity","com.experitest.ExperiBank.LoginActivity");
 
+        //create driver object and paasing the capabilities
         AndroidDriver driver = new AndroidDriver(caps);
+
+        //login
         driver.findElement(By.id("android:id/button1")).click();
         Reporter.log("OK button clicked",true);
         driver.findElement(By.id("com.experitest.ExperiBank:id/usernameTextField")).sendKeys("company");
@@ -31,9 +39,13 @@ public class test {
         driver.findElement(By.id("com.experitest.ExperiBank:id/loginButton")).click();
         Reporter.log("Login button clicked",true);
         Thread.sleep(2000);
+
+        //navigate to payment menu
         driver.findElement(By.id("com.experitest.ExperiBank:id/makePaymentButton")).click();
         Reporter.log("Payment button clicked",true);
         Thread.sleep(2000);
+
+        //fill the form
         driver.findElement(By.id("com.experitest.ExperiBank:id/phoneTextField")).sendKeys("089609293939");
         Reporter.log("Fill phone number",true);
         driver.findElement(By.id("com.experitest.ExperiBank:id/nameTextField")).sendKeys("Teguh Hariyadi");
@@ -63,13 +75,33 @@ public class test {
         opend.withCoordinates(endCoordinateX, startCoodinateY);
         //perform swipe
         action.longPress(opstart).moveTo(opend).release().perform();
-
         Reporter.log("Seek bar 50%",true);
 
+        driver.findElement(By.id("com.experitest.ExperiBank:id/countryButton")).click();
 
+        int windowWidth = driver.manage().window().getSize().width;
+        int windowHeight = driver.manage().window().getSize().height;
+        int middleXCoordinate = (driver.manage().window().getSize().width*50)/100;
+        int bottomYCoordinate = (driver.manage().window().getSize().height*90)/100;
+        int upperYCoordinate = (driver.manage().window().getSize().height*10)/100;
+        System.out.println("lebar full : "+windowWidth);
+        System.out.println("tinggi full : "+windowHeight);
+        System.out.println("tengah lebar : "+middleXCoordinate);
+        System.out.println("90% tinggi full : "+bottomYCoordinate);
+        System.out.println("10% tinggi full : "+upperYCoordinate);
 
+        TouchAction action2 = new TouchAction(driver);
+        PointOption startPoint = new PointOption();
+        startPoint.withCoordinates(middleXCoordinate,bottomYCoordinate);
+        PointOption endPoint = new PointOption();
+        endPoint.withCoordinates(middleXCoordinate,upperYCoordinate);
+        action2.longPress(startPoint).moveTo(endPoint).release().perform();
 
-
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[10]"))
+                .click();
+        driver.findElement(By.id("com.experitest.ExperiBank:id/sendPaymentButton")).click();
+        //driver.findElement(By.id("android:id/button1")).click();
+        driver.switchTo().alert().accept();
     }
 
 }
