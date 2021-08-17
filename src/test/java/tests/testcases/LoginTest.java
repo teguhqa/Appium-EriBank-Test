@@ -2,12 +2,9 @@ package tests.testcases;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Reporter;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import tests.pages.HomePage;
 import tests.pages.LoginPage;
 import tests.pages.MakePaymentPage;
@@ -33,8 +30,9 @@ public class LoginTest {
     SliderAmount slider = null;
     SwipeVertical swipe = null;
 
-    @BeforeSuite
-    public void suiteSetup() throws MalformedURLException {
+    @BeforeTest
+    public void testSetup() throws MalformedURLException {
+        System.out.println("ini before test Login Test 1");
         //create desired capabilities
         desiredCapabilities = new DesiredCapabilities();
         //set device capabilities
@@ -57,11 +55,12 @@ public class LoginTest {
         //create util object and passes driver
         slider = new SliderAmount(driver);
         swipe = new SwipeVertical(driver);
-
     }
 
     @Test
     public void test1() throws InterruptedException {
+        Reporter.log("test1 started",true);
+        driver.resetApp();
         loginPage.clickOK();
         loginPage.typeUsername("company");
         loginPage.typePassword("company");
@@ -77,11 +76,33 @@ public class LoginTest {
         makePaymentPage.clickSelectCanada();
         makePaymentPage.clickSendPayment();
         driver.switchTo().alert().accept();
-
+        Reporter.log("test1 ended",true);
     }
 
-    @AfterSuite
-    public void suiteTeardown(){
+    @Test
+    public void test2() throws InterruptedException {
+        Reporter.log("test2 started",true);
+        driver.resetApp();
+        loginPage.clickOK();
+        loginPage.typeUsername("company");
+        loginPage.typePassword("company");
+        loginPage.clickLogin();
+        Thread.sleep(3000);
+        homePage.clickMakePaymentButton();
+        Thread.sleep(3000);
+        makePaymentPage.typePhone("089600000000");
+        makePaymentPage.typeName("hehuh");
+        slider.performSlider("com.experitest.ExperiBank:id/amount",30);
+        makePaymentPage.clickSelect();
+        swipe.swipeUp(50,90,10);
+        makePaymentPage.clickSelectCanada();
+        makePaymentPage.clickSendPayment();
+        driver.switchTo().alert().accept();
+        Reporter.log("test2 ended",true);
+    }
+
+    @AfterTest
+    public void testTeardown(){
         if(driver != null){
             driver.quit();
             Reporter.log("Quit the driver",true);

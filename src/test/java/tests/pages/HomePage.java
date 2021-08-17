@@ -6,6 +6,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
 
 import java.time.Duration;
 
@@ -22,5 +23,6 @@ public class HomePage {
 
     public void clickMakePaymentButton(){
         makePaymentButton.click();
+        Reporter.log("Button Make Payment clicked",true);
     }
 }

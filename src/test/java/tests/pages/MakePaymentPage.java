@@ -4,8 +4,8 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
 
 import java.time.Duration;
 
@@ -36,21 +36,26 @@ public class MakePaymentPage {
 
     public void typePhone(String phone){
         phoneField.sendKeys(phone);
+        Reporter.log("Phone number : "+phone+" typed",true);
     }
 
     public void typeName(String name){
         nameField.sendKeys(name);
+        Reporter.log("Name : "+name+" typed",true);
     }
 
     public void clickSelect(){
         selectButton.click();
+        Reporter.log("Button Select clicked",true);
     }
 
     public void clickSelectCanada(){
         selectButtonCanada.click();
+        Reporter.log("Button Canada clicked",true);
     }
 
     public void clickSendPayment(){
         sendPaymentButton.click();
+        Reporter.log("Button Send Payment clicked",true);
     }
 }

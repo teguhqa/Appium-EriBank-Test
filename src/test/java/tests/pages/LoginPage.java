@@ -6,6 +6,7 @@ import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
 
 import java.time.Duration;
 
@@ -28,17 +29,21 @@ public class LoginPage {
 
     public void clickOK(){
         okButton.click();
+        Reporter.log("Button Ok clicked",true);
     }
 
     public void typeUsername(String username){
         usernameField.sendKeys(username);
+        Reporter.log("Username : "+username+" typed",true);
     }
 
     public void typePassword(String password){
         passwordField.sendKeys(password);
+        Reporter.log("Password : "+password+" typed",true);
     }
 
     public void clickLogin(){
         loginButton.click();
+        Reporter.log("Button Login clicked",true);
     }
 }
